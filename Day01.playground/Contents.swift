@@ -32,6 +32,7 @@ var pi = 3.141
 var awesome = true
 
 // 5.String interpolation (We can place any type of variable inside our string.)
+// Swift assigns each variable and constant a type based on what value it’s given when it’s created
 
 var score = 85
 var str3 = "Your score was \(score)"
