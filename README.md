@@ -9,3 +9,12 @@ Project01_StormViewer:
 - Outlets
 - Auto layout
 - UIImage
+
+Project02_GuessTheFlag
+- Interface builder
+- @2x and @3x
+- Asset catalogs
+- UIButton
+- Random numbers
+- Actions
+- UIAlertController
