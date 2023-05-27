@@ -15,12 +15,13 @@ class ViewController: UIViewController {
 
     var countries = [String]()
     var score = 0
+    var questionAnswered = 0
     var correctAnswer = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        countries += ["estonia", "france", "germnany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
+        countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
 
         button1.layer.borderWidth = 1
         button2.layer.borderWidth = 1
@@ -41,24 +42,53 @@ class ViewController: UIViewController {
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
 
-        title = countries[correctAnswer].uppercased()
+        title = "Score \(score), Choose: " + countries[correctAnswer].uppercased() + "'s flag"
+    }
+
+    func restartGame(action: UIAlertAction!) {
+        score = 0
+        correctAnswer = 0
+        questionAnswered = 0
+
+        askQuestion(action: nil)
     }
 
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
+        var message: String
 
-        if (sender.tag == correctAnswer) {
-            title = "Correct"
+        if sender.tag == correctAnswer {
             score += 1
+            questionAnswered += 1
+            if questionAnswered == 5 {
+                title = "Game over"
+                message = "You have answered 5 questions! \n Your score is \(score)"
+            } else {
+                title = "Correct"
+                message = "Your score is \(score)"
+            }
         } else {
-            title = "Wrong"
             score -= 1
+            questionAnswered += 1
+            if questionAnswered == 5 {
+                title = "Game over"
+                message = "You have answered 5 questions! \n Your score is \(score)"
+            } else {
+                title = "Wrong"
+                message = """
+                Your score is \(score)
+                That is the flag of: \(countries[sender.tag].uppercased())
+                """
+            }
         }
 
-        let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
-        present(ac,animated: true)
+        let ac = UIAlertController(title: title, message: message , preferredStyle: .alert)
+        if title != "Game over" {
+            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
+        } else {
+            ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: restartGame))
+        }
+        present(ac, animated: true)
     }
-
 }
 
