@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showScore))
+
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
 
         button1.layer.borderWidth = 1
@@ -89,6 +91,12 @@ class ViewController: UIViewController {
             ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: restartGame))
         }
         present(ac, animated: true)
+    }
+
+    @objc func showScore() {
+        let vc = UIActivityViewController(activityItems: ["Score: \(score)"], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
 }
 
