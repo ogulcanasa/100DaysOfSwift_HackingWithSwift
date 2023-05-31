@@ -22,3 +22,12 @@ Project02_GuessTheFlag
 Project03_SocialMedia
 - UIBarButtonItem
 - UIActivityViewController.
+
+Project04_EasyBrowser
+- loadView()
+- WKWebView
+- Delegation
+- URL, URLRequest
+- UIToolbar
+- UIProgressView
+- Key-Value Observing

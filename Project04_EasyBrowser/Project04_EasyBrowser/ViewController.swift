@@ -11,7 +11,8 @@ import WebKit
 class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
-    var websites = ["apple.com", "hackingwithswift.com"]
+    var websites = ["apple.com", "hackingwithswift.com", "google.com", "facebook.com", "twitter.com", "wikipedia.org", "wrongPage.com"]
+    var selectedWebsite: Int?
 
     override func loadView() {
         webView = WKWebView()
@@ -26,18 +27,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        let previousPage = UIBarButtonItem(barButtonSystemItem: .rewind, target: webView, action: #selector(webView.goBack))
+        let nextPage = UIBarButtonItem(barButtonSystemItem: .fastForward, target: webView, action: #selector(webView.goForward))
 
         progressView = UIProgressView(progressViewStyle: .default)
         progressView.sizeToFit()
 
         let progressButton = UIBarButtonItem(customView: progressView)
 
-        toolbarItems = [progressButton, spacer, refresh]
+        toolbarItems = [progressButton, spacer, refresh, previousPage, nextPage]
         navigationController?.isToolbarHidden = false
 
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
 
-        let url = URL(string: "https://" + websites[0])!
+        let url = URL(string: "https://" + websites[selectedWebsite ?? 0])!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
@@ -53,7 +56,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
 
     func openPage(action: UIAlertAction) {
-        let url = URL(string: "https://" + action.title!)!
+        guard let actionTitle = action.title else { return }
+        guard let url = URL(string: "https://" + actionTitle) else { return }
         webView.load(URLRequest(url: url))
     }
 
@@ -77,8 +81,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     return
                 }
             }
+            let ac = UIAlertController(title: "Opps! This website not allowed", message: nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(ac, animated: true)
         }
-
         decisionHandler(.cancel)
     }
 }
