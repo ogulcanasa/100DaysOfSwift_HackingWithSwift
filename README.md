@@ -31,3 +31,9 @@ Project04_EasyBrowser
 - UIToolbar
 - UIProgressView
 - Key-Value Observing
+
+Project05_WordScramble
+- Reloading table views
+- Inserting rows
+- Text input in alerts
+- NSRange
