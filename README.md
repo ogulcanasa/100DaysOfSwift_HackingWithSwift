@@ -37,3 +37,7 @@ Project05_WordScramble
 - Inserting rows
 - Text input in alerts
 - NSRange
+
+Project06_AutoLayout
+- Visual Formatting Language
+- Anchors
