@@ -41,3 +41,9 @@ Project05_WordScramble
 Project06_AutoLayout
 - Visual Formatting Language
 - Anchors
+
+Project07_WhitehousePetitions
+- Downloading JSON with Data
+- Codable
+- UITabBarController
+- UIStoryboard
