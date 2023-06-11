@@ -47,3 +47,9 @@ Project07_WhitehousePetitions
 - Codable
 - UITabBarController
 - UIStoryboard
+
+Project08_SwiftyWords
+- addTarget()
+- enumarated()
+- joined()
+- replacingOccurrences()
