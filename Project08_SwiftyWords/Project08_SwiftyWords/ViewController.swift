@@ -23,6 +23,7 @@ class ViewController: UIViewController {
             scoreLabel.text = "Score: \(score)"
         }
     }
+    var correctAnswer = 0
     var level = 1
 
     override func loadView() {
@@ -118,6 +119,9 @@ class ViewController: UIViewController {
             for column in 0..<5 {
                 let letterButton = UIButton(type: .system)
                 letterButton.titleLabel?.font = UIFont.systemFont(ofSize: 36)
+                letterButton.layer.borderWidth = 0.5
+                letterButton.layer.borderColor = UIColor.lightGray.cgColor
+                letterButton.layer.cornerRadius = 5.0
                 letterButton.setTitle("WWW", for: .normal)
                 letterButton.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
 
@@ -155,12 +159,26 @@ class ViewController: UIViewController {
 
             currentAnswer.text = ""
             score += 1
+            correctAnswer += 1
 
-            if score % 7 == 0 {
+            if correctAnswer % 7 == 0 {
                 let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
             }
+
+        } else {
+            let ac = UIAlertController(title: "Wrong Answer!", message: "Keep trying", preferredStyle: .alert)
+            let continueAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.default)
+            ac.addAction(continueAction)
+            present(ac, animated: true)
+
+            for btn in activatedButtons {
+                btn.isHidden = false
+            }
+            activatedButtons.removeAll()
+            currentAnswer.text = ""
+            score -= 1
         }
     }
 
