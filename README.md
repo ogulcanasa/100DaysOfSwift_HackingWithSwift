@@ -58,3 +58,9 @@ Project09_GrandCentralDispatch
 - GCD
 - performSelector()
 - Quality of Service 
+
+Project10_NamesToFaces
+- UIImagePickerController
+- UUID
+- NSObject subclasses
+- fatalError()
