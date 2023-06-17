@@ -10,6 +10,7 @@ import SpriteKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var scoreLabel: SKLabelNode!
+    var leftBallLabel: SKLabelNode!
 
     var score = 0 {
         didSet {
@@ -29,6 +30,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
+    var ballImages = ["ballBlue", "ballCyan", "ballRed", "ballGreen", "ballGrey", "ballPurple", "ballYellow"]
+
+    var leftBall = 5 {
+        didSet {
+            leftBallLabel.text = "Left Ball: \(leftBall)"
+        }
+    }
+
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "background.jpg")
         background.position = CGPoint(x: 512, y: 384)
@@ -41,6 +50,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.horizontalAlignmentMode = .right
         scoreLabel.position = CGPoint(x: 980, y: 700)
         addChild(scoreLabel)
+
+        leftBallLabel = SKLabelNode(fontNamed: "Chalkduster")
+        leftBallLabel.text = "Left Ball: 5"
+        leftBallLabel.horizontalAlignmentMode = .center
+        leftBallLabel.position = CGPoint(x: 512, y: 700)
+        addChild(leftBallLabel)
 
         editLabel = SKLabelNode(fontNamed: "Chalkduster")
         editLabel.text = "Edit"
@@ -70,26 +85,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if objects.contains(editLabel) {
             editingMode.toggle()
         } else {
-            if editingMode {
-                let size = CGSize(width: Int.random(in: 16...128), height: 16)
-                let box = SKSpriteNode(color: UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
-                box.zRotation = CGFloat.random(in: 0...3)
-                box.position = location
+            if leftBall > 0 {
+                if editingMode {
+                    let size = CGSize(width: Int.random(in: 16...128), height: 16)
+                    let box = SKSpriteNode(color: UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
+                    box.zRotation = CGFloat.random(in: 0...3)
+                    box.position = location
 
-                box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
-                box.physicsBody?.isDynamic = false
+                    box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
+                    box.physicsBody?.isDynamic = false
+                    box.name = "box"
 
-                addChild(box)
-            } else {
-                let ball = SKSpriteNode(imageNamed: "ballRed")
-                ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
-                ball.physicsBody?.restitution = 0.4 // about bouncy
-                ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
-                ball.position = location
-                ball.name = "ball"
-                addChild(ball)
-            }
+                    addChild(box)
+                } else {
+                    if location.y > 550 {
+                        spawnBall(location: location)
+                    } else {
+                        let alertController = UIAlertController(title: "Try from a higher point", message: nil, preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        alertController.addAction(okAction)
+                        guard let viewController = view?.window?.rootViewController else {
+                            return
+                        }
+                        viewController.present(alertController, animated: true, completion: nil)
+                    }
+                }
+            } 
         }
+    }
+
+    func spawnBall(location: CGPoint) {
+        let randomBallImage = ballImages.randomElement()
+        let ball = SKSpriteNode(imageNamed: randomBallImage!)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
+        ball.physicsBody?.restitution = 0.4 // about bouncy
+        ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
+        ball.position = location
+        ball.name = "ball"
+        addChild(ball)
     }
 
     func makeBouncer(at position: CGPoint) {
@@ -132,14 +165,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if object.name == "good" {
             destroy(ball: ball)
             score += 1
+            leftBall += 1
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
+            leftBall -= 1
         }
+
+        if ball.name == "box" {
+            destroyBox(box: ball)
+        }
+        gameOver()
     }
 
     func destroy(ball: SKNode) {
+        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+            fireParticles.position = ball.position
+            addChild(fireParticles)
+        }
+
         ball.removeFromParent()
+    }
+
+    func destroyBox(box: SKNode) {
+        box.removeFromParent()
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -151,5 +200,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if nodeB.name == "ball" {
             collisionBetween(ball: nodeB, object: nodeA)
         }
+
+        if nodeA.name == "box" {
+            collisionBetween(ball: nodeA, object: nodeB)
+        } else if nodeB.name == "box" {
+            collisionBetween(ball: nodeB, object: nodeA)
+        }
+    }
+
+    func gameOver() {
+        if leftBall < 1 {
+            let ac = UIAlertController(title: "Game Over!", message: nil, preferredStyle: .alert)
+            let NewGame = UIAlertAction(title: "New Game", style: .default) { _ in
+                self.newGame()
+            }
+            ac.addAction(NewGame)
+            guard let viewController = view?.window?.rootViewController else {
+                return
+            }
+            viewController.present(ac, animated: true, completion: nil)
+
+        }
+    }
+
+    @objc func newGame() {
+        score = 0
+        leftBall = 5
     }
 }

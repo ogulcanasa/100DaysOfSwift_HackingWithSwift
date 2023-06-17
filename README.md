@@ -64,3 +64,9 @@ Project10_NamesToFaces
 - UUID
 - NSObject subclasses
 - fatalError()
+
+Project11_Pachinko
+- SpriteKit
+- Physics
+- Blend modes
+- Radians and CGFloat
