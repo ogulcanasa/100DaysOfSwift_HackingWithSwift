@@ -12,11 +12,12 @@ class DetailViewController: UIViewController {
     var selectedImage: String?
     var selectedPosition: Int?
     var numberOfImage: Int?
+    var selectedNumberOfShow = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Picture \(selectedPosition!) of \(numberOfImage!)"
+        title = "Picture \(selectedPosition!) of \(numberOfImage!) - \(selectedNumberOfShow[(selectedPosition ?? 1)-1]) times clicked"
         navigationItem.largeTitleDisplayMode = .never
 
         if let imageToLoad = selectedImage {
