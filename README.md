@@ -74,3 +74,8 @@ Project11_Pachinko
 Project12_UserDefaults
 - Codable
 - NSCoding
+
+Project13_Instafilter
+- Core Image
+- UISlider
+- Writing images to the iOS photo album
