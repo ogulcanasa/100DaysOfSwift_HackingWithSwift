@@ -79,3 +79,9 @@ Project13_Instafilter
 - Core Image
 - UISlider
 - Writing images to the iOS photo album
+
+Project14_WhackAPenguin
+- SKCropNode
+- SKTexture
+- asyncAfter()
+- New SKAction types

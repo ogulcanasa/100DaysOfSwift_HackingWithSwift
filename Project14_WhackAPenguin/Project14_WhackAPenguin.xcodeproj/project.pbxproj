@@ -17,6 +17,8 @@
 		6A5E39562A46D0D400CBAB3C /* whackBad.caf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E39542A46D0D400CBAB3C /* whackBad.caf */; };
 		6A5E39572A46D0D400CBAB3C /* whack.caf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E39552A46D0D400CBAB3C /* whack.caf */; };
 		6A5E39592A46DB2900CBAB3C /* WhackSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E39582A46DB2900CBAB3C /* WhackSlot.swift */; };
+		6A8E565E2A482C27007834A6 /* gameOver.caf in Resources */ = {isa = PBXBuildFile; fileRef = 6A8E565D2A482C26007834A6 /* gameOver.caf */; };
+		6A8E56622A4834FD007834A6 /* smokeParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6A8E56612A4834FD007834A6 /* smokeParticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		6A5E39542A46D0D400CBAB3C /* whackBad.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whackBad.caf; sourceTree = "<group>"; };
 		6A5E39552A46D0D400CBAB3C /* whack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whack.caf; sourceTree = "<group>"; };
 		6A5E39582A46DB2900CBAB3C /* WhackSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhackSlot.swift; sourceTree = "<group>"; };
+		6A8E565D2A482C26007834A6 /* gameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameOver.caf; sourceTree = "<group>"; };
+		6A8E56612A4834FD007834A6 /* smokeParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = smokeParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,7 @@
 				6A5E393D2A46D01B00CBAB3C /* AppDelegate.swift */,
 				6A5E393F2A46D01B00CBAB3C /* GameScene.sks */,
 				6A5E39432A46D01B00CBAB3C /* GameScene.swift */,
+				6A8E56612A4834FD007834A6 /* smokeParticles.sks */,
 				6A5E39582A46DB2900CBAB3C /* WhackSlot.swift */,
 				6A5E39452A46D01B00CBAB3C /* GameViewController.swift */,
 				6A5E39472A46D01B00CBAB3C /* Main.storyboard */,
@@ -73,6 +78,7 @@
 				6A5E394C2A46D01D00CBAB3C /* LaunchScreen.storyboard */,
 				6A5E39552A46D0D400CBAB3C /* whack.caf */,
 				6A5E39542A46D0D400CBAB3C /* whackBad.caf */,
+				6A8E565D2A482C26007834A6 /* gameOver.caf */,
 			);
 			path = Project14_WhackAPenguin;
 			sourceTree = "<group>";
@@ -137,10 +143,12 @@
 			files = (
 				6A5E39562A46D0D400CBAB3C /* whackBad.caf in Resources */,
 				6A5E39492A46D01B00CBAB3C /* Main.storyboard in Resources */,
+				6A8E565E2A482C27007834A6 /* gameOver.caf in Resources */,
 				6A5E39402A46D01B00CBAB3C /* GameScene.sks in Resources */,
 				6A5E394B2A46D01D00CBAB3C /* Assets.xcassets in Resources */,
 				6A5E394E2A46D01D00CBAB3C /* LaunchScreen.storyboard in Resources */,
 				6A5E39572A46D0D400CBAB3C /* whack.caf in Resources */,
+				6A8E56622A4834FD007834A6 /* smokeParticles.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,7 +329,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -352,7 +360,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

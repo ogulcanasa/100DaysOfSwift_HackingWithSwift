@@ -12,7 +12,7 @@ class WhackSlot: SKNode {
     var charNode: SKSpriteNode!
 
     var isVisible = false
-    var isHİt = false
+    var isHit = false
 
     func configure(at position: CGPoint) {
         self.position = position
@@ -36,9 +36,12 @@ class WhackSlot: SKNode {
     func show(hideTime: Double) {
         if isVisible {return}
 
+        charNode.xScale = 1
+        charNode.yScale = 1
+        
         charNode.run(SKAction.moveBy(x: 0, y: 80, duration: 0.05))
         isVisible = true
-        isHİt = true
+        isHit = false
 
         if Int.random(in: 0...2) == 0 {
             charNode.texture = SKTexture(imageNamed: "penguinGood")
@@ -48,7 +51,7 @@ class WhackSlot: SKNode {
             charNode.name = "charEnemy"
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + (hideTime * 0.35)) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + (hideTime * 3.5)) { [weak self] in
             self?.hide()
         }
     }
@@ -58,5 +61,28 @@ class WhackSlot: SKNode {
 
         charNode.run(SKAction.moveBy(x: 0, y: -80, duration: 0.05))
         isVisible = true
+    }
+
+    func hit() {
+        isHit = true
+
+        let delay = SKAction.wait(forDuration: 0.25)
+        let hide = SKAction.moveBy(x: 0, y: -80, duration: 0.5)
+        let notVisible = SKAction.run { [unowned self] in self.isVisible = false }
+
+        let sequence = SKAction.sequence([delay, hide, notVisible])
+        charNode.run(sequence)
+
+        if let smokeParticles = SKEmitterNode(fileNamed: "smokeParticles.sks") {
+            smokeParticles.position = CGPoint(x: 0, y: -20)
+            smokeParticles.zPosition = 2
+            smokeParticles.particleColor = .red
+            addChild(smokeParticles)
+            smokeParticles.isHidden = false
+            smokeParticles.resetSimulation()
+            smokeParticles.run(SKAction.sequence([
+                SKAction.wait(forDuration: 1.0),
+                SKAction.run {smokeParticles.isHidden = true}
+            ])) }
     }
 }
