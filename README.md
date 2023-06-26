@@ -85,3 +85,9 @@ Project14_WhackAPenguin
 - SKTexture
 - asyncAfter()
 - New SKAction types
+
+Project15_Animations
+- animate(withDuration:)
+- Sprint animations
+- Alpha values
+- CGAffineTransform
