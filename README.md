@@ -91,3 +91,9 @@ Project15_Animations
 - Sprint animations
 - Alpha values
 - CGAffineTransform
+
+Project16_CapitalCities
+- MKMapView
+- MKAnnotation
+- MKPinAnnotationView
+- CLLocationCoordinate2D
