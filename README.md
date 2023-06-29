@@ -103,3 +103,9 @@ Project17_SpaceRace
 - Advancing particle systems
 - Timer
 - Linear and angular damping
+
+Project18_Debugging
+- print()
+- assert()
+- Breakpoints
+- View debugging

@@ -25,6 +25,11 @@ class ViewController: UIViewController {
             // write "p i" to take value of i
             print("Got number \(i)")
         }
+
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "False") as? OtherVC {
+            print("denm")
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     func myReallySlowMethod() -> Bool {
