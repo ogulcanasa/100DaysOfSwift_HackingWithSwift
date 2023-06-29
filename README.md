@@ -97,3 +97,9 @@ Project16_CapitalCities
 - MKAnnotation
 - MKPinAnnotationView
 - CLLocationCoordinate2D
+
+Project17_SpaceRace
+- Per-pixel collision detection
+- Advancing particle systems
+- Timer
+- Linear and angular damping

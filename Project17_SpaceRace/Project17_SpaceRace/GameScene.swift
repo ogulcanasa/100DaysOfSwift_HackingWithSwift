@@ -16,6 +16,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameTimer: Timer?
     var isGameOver = false
 
+    var numberOfEnemy = 0
+    var i = 1
 
     var score = 0 {
         didSet{
@@ -48,10 +50,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
 
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        startGameTimer()
+    }
+
+    func startGameTimer() {
+        gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
 
     @objc func createEnemy() {
+        numberOfEnemy += 1
+
         guard let enemy = possibleEnemies.randomElement() else {return}
 
         let sprite = SKSpriteNode(imageNamed: enemy)
@@ -64,6 +72,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
            sprite.physicsBody?.angularVelocity = 5
            sprite.physicsBody?.linearDamping = 0
            sprite.physicsBody?.angularDamping = 0
+
+        if numberOfEnemy >= 20 * i {
+            if i == 7 {
+                return
+            }
+            gameTimer?.invalidate()
+            gameTimer = Timer.scheduledTimer(timeInterval: 1.0 - (0.1 * Double(i)), target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+            i += 1
+            }
        }
     
     override func update(_ currentTime: TimeInterval) {
@@ -91,6 +108,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = location
     }
 
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+            if isGameOver { return }
+            didBegin(SKPhysicsContact())
+        }
+
     func didBegin(_ contact: SKPhysicsContact) {
         let explosion = SKEmitterNode(fileNamed: "explosion")!
         explosion.position = player.position
@@ -99,5 +121,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.removeFromParent()
 
         isGameOver = true
+        gameTimer?.invalidate()
+        scoreLabel.position = CGPoint(x:(frame.width/2 - 150), y: (frame.height/2 - 24))
+        scoreLabel.fontSize = 48
+        scoreLabel.zPosition = 1
     }
 }
