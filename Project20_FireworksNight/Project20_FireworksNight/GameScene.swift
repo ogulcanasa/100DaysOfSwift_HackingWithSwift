@@ -10,6 +10,8 @@ import SpriteKit
 class GameScene: SKScene {
     var gameTimer: Timer?
     var fireworks = [SKNode]()
+    var scoreLabel: SKLabelNode!
+    var roundNumber = 0
 
     let leftEdge = -22
     let bottomEdge = -22
@@ -17,6 +19,7 @@ class GameScene: SKScene {
 
     var score = 0 {
         didSet{
+            scoreLabel.text = "Score: \(score)"
         }
     }
 
@@ -26,6 +29,12 @@ class GameScene: SKScene {
         background.blendMode = .replace
         background.zPosition = -1
         addChild(background)
+
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.position = CGPoint(x: 16, y: 16)
+        scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.text = "Score: \(score)"
+        addChild(scoreLabel)
 
         gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(launchFireworks), userInfo: nil, repeats: true)
     }
@@ -74,6 +83,15 @@ class GameScene: SKScene {
     }
 
     @objc func launchFireworks() {
+        roundNumber += 1
+        if roundNumber == 3 {
+            scoreLabel.position = CGPoint(x:(frame.width/2 - 150), y: (frame.height/2 - 24))
+            scoreLabel.fontSize = 48
+            scoreLabel.zPosition = 1
+            gameTimer?.invalidate()
+            return
+        }
+
         let movementAmount: CGFloat = 1800
 
         switch Int.random(in: 0...3) {
@@ -154,6 +172,42 @@ class GameScene: SKScene {
                 fireworks.remove(at: index)
                 firework.removeFromParent()
             }
+        }
+    }
+
+    func explode(firework: SKNode) {
+        if let emitter = SKEmitterNode(fileNamed: "explode") {
+            emitter.position = firework.position
+            addChild(emitter)
+        }
+        firework.removeFromParent()
+    }
+
+    func explodeFireworks() {
+        var numExploded = 0
+
+        for (index, fireworkContainer) in fireworks.enumerated().reversed() {
+            guard let firework = fireworkContainer.children.first as? SKSpriteNode else {return}
+
+            if firework.name == "selected" {
+                explode(firework: fireworkContainer)
+                fireworks.remove(at: index)
+                numExploded += 1
+            }
+        }
+        switch numExploded {
+        case 0:
+            break
+        case 1:
+            score += 200
+        case 2:
+            score += 500
+        case 3:
+            score += 1500
+        case 4:
+            score += 2500
+        default:
+            score += 4000
         }
     }
 }
