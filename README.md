@@ -121,3 +121,8 @@ Project20_FireworksNight
 - for case let
 - Color blending
 - Shake gesture
+
+Project21_LocalNotifications
+- Showing a local notification
+- UNUserNotificationCenter
+- UNNotificationRequest
