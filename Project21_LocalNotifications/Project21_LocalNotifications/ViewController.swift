@@ -56,8 +56,9 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
 
-        let show = UNNotificationAction(identifier: "show", title: "Tell me more…", options: .foreground)
-        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+        let showMoreInfoAction = UNNotificationAction(identifier: "show", title: "Tell me more…", options: .foreground)
+        let remindMeLaterAction = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: .foreground)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [showMoreInfoAction, remindMeLaterAction], intentIdentifiers: [])
 
         center.setNotificationCategories([category])
     }
@@ -73,18 +74,38 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             case UNNotificationDefaultActionIdentifier:
                 // the user swiped to unlock
                 print("Default identifier")
-
+                showDefaultAlert()
             case "show":
                 // the user tapped our "show more info…" button
                 print("Show more information…")
-
+                showMoreInfoAlert()
+            case "remindLater":
+                // The user tapped "Remind me later" button
+                print("Remind me later")
+                // Schedule the same alert after 24 hours
+                scheduleLocal()
             default:
                 break
             }
         }
-
         // you must call the completion handler when you're done
         completionHandler()
+    }
+
+    func showDefaultAlert() {
+        let alertController = UIAlertController(title: "Default Action", message: "The user swiped to unock.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
+    func showMoreInfoAlert() {
+        let alertController = UIAlertController(title: "More Info Action", message: "The user tapped on 'Show more info…' button.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 }
 
