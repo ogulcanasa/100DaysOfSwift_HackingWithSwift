@@ -126,3 +126,8 @@ Project21_LocalNotifications
 - Showing a local notification
 - UNUserNotificationCenter
 - UNNotificationRequest
+
+Project22_DetectABeacon
+- iBeacon
+- Core Location
+- CLBeaconRegion
